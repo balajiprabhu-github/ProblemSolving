@@ -9,7 +9,7 @@ fun main() {
 }
 
 // Input: strs = ["flower","flow","flight"]
-class Solution14 {
+private class Solution14 {
 
     fun longestCommonPrefix(strs: Array<String>): String {
 

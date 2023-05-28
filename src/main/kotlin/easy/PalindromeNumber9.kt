@@ -5,7 +5,7 @@ fun main() {
     println( Solution9().isPalindrome(-1))
 }
 
- class Solution9 {
+ private class Solution9 {
 
      fun isPalindrome(x: Int): Boolean {
          var rev : Int = 0

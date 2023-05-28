@@ -6,7 +6,7 @@ fun main() {
     println(Solution58().lengthOfLastWord("luffy is still joyboy"))
 }
 
-class Solution58 {
+private class Solution58 {
     fun lengthOfLastWord(s: String): Int {
 
         var lastWordLength = 0

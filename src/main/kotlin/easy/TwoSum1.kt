@@ -4,7 +4,7 @@ fun main() {
     println(Solution1().twoSum(intArrayOf(2,7,11,15),9))
 }
 
-internal class Solution1 {
+private class Solution1 {
     fun twoSum(nums: IntArray, target: Int): IntArray {
         val res = IntArray(2)
         val map: MutableMap<Int, Int> = HashMap()

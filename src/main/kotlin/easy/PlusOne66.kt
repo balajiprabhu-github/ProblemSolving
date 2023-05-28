@@ -7,7 +7,7 @@ fun main() {
     println(Solution66().plusOne(intArrayOf(7,8,2,5,9)).toList().toString())
 }
 
-class Solution66 {
+private class Solution66 {
 
     fun plusOne(digits: IntArray): IntArray {
 
