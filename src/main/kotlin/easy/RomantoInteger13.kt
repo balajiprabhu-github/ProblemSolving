@@ -4,7 +4,7 @@ fun main() {
     println(Solution13().romanToInt("XXVII"))
 }
 
-class Solution13 {
+private class Solution13 {
 
     fun romanToInt(s: String): Int {
 

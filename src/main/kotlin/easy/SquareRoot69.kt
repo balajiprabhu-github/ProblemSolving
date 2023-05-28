@@ -5,7 +5,7 @@ fun main() {
     Solution().mySqrt(16)
 }
 
-class Solution {
+private class Solution {
 
     fun mySqrt(x: Int): Int {
 
