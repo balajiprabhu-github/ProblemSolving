@@ -2,10 +2,10 @@ package easy
 
 fun main() {
 
-    Solution().mySqrt(16)
+    Solution69().mySqrt(16)
 }
 
-private class Solution {
+private class Solution69 {
 
     fun mySqrt(x: Int): Int {
 
