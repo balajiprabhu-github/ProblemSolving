@@ -8,7 +8,7 @@ fun main() {
 
 private class Solution1684 {
     fun countConsistentStrings(allowed: String, words: Array<String>): Int {
-        var count = 0
+        var ans = 0
 
         for (word in words) {
             var temp = 0
@@ -19,10 +19,10 @@ private class Solution1684 {
             }
 
             if (temp == word.length) {
-                count++
+                ans++
             }
         }
 
-        return count
+        return ans
     }
 }
