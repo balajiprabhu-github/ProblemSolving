@@ -1,8 +1,6 @@
 package easy
 
-class ListNode(var `val`:Int) {
-    var next: ListNode? = null
-}
+import datastructure.ListNode
 
 private class Solution876 {
     fun middleNode(head: ListNode?): ListNode? {
