@@ -17,9 +17,7 @@ private class Solution674 {
             } else {
                 result = 1
             }
-
             prevMax = Math.max(result,prevMax)
-
         }
 
         return prevMax
