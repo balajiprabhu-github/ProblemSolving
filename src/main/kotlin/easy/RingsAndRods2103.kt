@@ -53,7 +53,7 @@ fun main() {
     println(Solution2103().countPoints("G4"))
 }
 
-class Solution2103 {
+private class Solution2103 {
     fun countPoints(rings: String): Int {
         var result = 0
         val map = mutableMapOf<Char,Set<Char>>()

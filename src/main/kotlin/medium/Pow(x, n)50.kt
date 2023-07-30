@@ -6,7 +6,7 @@ fun main() {
     println(Solution50().myPow(2.00000,10))
 }
 
-class Solution50 {
+private class Solution50 {
     fun myPow(x: Double, n: Int): Double {
 
         val num: Double = if (n < 0) 1/x else x

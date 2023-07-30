@@ -2,7 +2,7 @@ package medium
 
 import datastructure.ListNode
 
-class Solution2 {
+private class Solution2 {
     fun addTwoNumbers(listOne: ListNode?, listTwo: ListNode?): ListNode? {
 
 
