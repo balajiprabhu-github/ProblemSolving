@@ -21,7 +21,7 @@ fun main() {
 
 }
 
-class Solution445 {
+private class Solution445 {
     fun addTwoNumbers(listOne: ListNode?, listTwo: ListNode?): ListNode? {
 
         val stackOne = Stack<Int>()
