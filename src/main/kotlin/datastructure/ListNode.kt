@@ -1,5 +1,20 @@
 package datastructure
 
+
+fun main() {
+
+    var listNode = insertNode(null,3)
+    listNode = insertNode(listNode,4)
+    listNode = insertNode(listNode,5)
+    listNode = insertNode(listNode,6)
+    listNode = insertNode(listNode,7)
+    listNode = insertNode(listNode,8)
+
+    printLinkedList(listNode)
+    printLinkedList(reverseList(listNode))
+
+}
+
 class ListNode(var `val`: Int) {
     var next: ListNode? = null
 }
@@ -41,4 +56,24 @@ fun printLinkedList(head: ListNode?) {
         current = current.next
     }
     println()
+}
+
+fun reverseList(head: ListNode?) : ListNode? {
+
+    if (head?.next == null) {
+        return head
+    }
+
+    var prev : ListNode? = null
+    var current = head
+    var next : ListNode?
+
+    while (current != null) {
+        next = current.next
+        current.next = prev
+        prev = current
+        current = next
+    }
+
+    return prev
 }
