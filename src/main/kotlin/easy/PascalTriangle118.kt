@@ -4,7 +4,7 @@ fun main() {
     println(Solution118().generate(30))
 }
 
-class Solution118 {
+private class Solution118 {
     fun generate(numRows: Int): List<List<Int>> {
         val result: MutableList<MutableList<Int>> = mutableListOf()
 
