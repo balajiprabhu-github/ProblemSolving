@@ -1,6 +1,6 @@
 package hard
 
-import kotlin.math.max
+import java.util.ArrayDeque
 
 fun main() {
     println(Solution239().maxSlidingWindow(intArrayOf(1,3,-1,-3,5,3,6,7),3).contentToString())
@@ -9,12 +9,26 @@ fun main() {
 private class Solution239 {
     fun maxSlidingWindow(nums: IntArray, k: Int): IntArray {
         val result = mutableListOf<Int>()
-        for (i in 0.. nums.size-k) {
-            var max = Int.MIN_VALUE
-            for (j in i until i+k) {
-                max = max(nums[j],max)
+        val deque = ArrayDeque<Int>()
+
+        for (i in nums.indices) {
+            // Remove elements outside the window from the front of the deque
+            while (!deque.isEmpty() && deque.peek() < i - k + 1) {
+                deque.poll()
             }
-            result.add(max)
+
+            // Remove elements that are smaller than the current element from the rear of the deque
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast()
+            }
+
+            // Add the current index to the rear of the deque
+            deque.offer(i)
+
+            // If the window size is greater than or equal to k, add the maximum element to the result
+            if (i >= k - 1) {
+                result.add(nums[deque.peek()])
+            }
         }
 
         return result.toIntArray()
