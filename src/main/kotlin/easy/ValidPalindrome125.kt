@@ -11,19 +11,26 @@ private class Solution125 {
 
     fun isPalindrome(s: String): Boolean {
 
-        if (s.length == 1) return true
-        val re = Regex("[^A-Za-z]")
-        val temp = s.toLowerCase().replace(re, "")
-        var result = false
-        var start = 0
-        var end = temp.length-1
+        val list = mutableListOf<Char>()
 
-        while (start <= end){
-            result = temp[start] == temp[end]
+        for (ch in s) {
+            if ((ch in '0'..'9') || (ch.lowercaseChar() in 'a'..'z')) {
+                list.add(ch.lowercaseChar())
+            }
+        }
+
+        println(list.joinToString(""))
+        var start = 0
+        var end = list.size-1
+
+        while(start<=end) {
+            if(list[start] != list[end]) {
+                return false
+            }
             start++
             end--
         }
 
-        return result
+        return true
     }
 }
