@@ -1,5 +1,9 @@
 package easy
 
+import java.util.*
+
+data class Item(val index: Int, val count: Int)
+
 fun main() {
     println(Solution1337().kWeakestRows(
         arrayOf(
@@ -35,5 +39,27 @@ private class Solution1337 {
             .take(k)
             .map { it.first }
             .toIntArray()
+    }
+
+    fun kWeakestRowsSolution2(mat: Array<IntArray>, k: Int): IntArray {
+        val comparator = compareBy<Item> { it.count }.thenBy { it.index }
+        val pq = PriorityQueue(comparator)
+        val result = IntArray(k)
+
+        for(i in mat.indices) {
+            val row = mat[i]
+            val count = row.count { it == 1}
+            val item = Item(i,count)
+            pq.offer(item)
+        }
+
+        for(i in result.indices) {
+            if(!pq.isEmpty()) {
+                val item = pq.poll()
+                result[i] = item.index
+            }
+        }
+
+        return result
     }
 }
