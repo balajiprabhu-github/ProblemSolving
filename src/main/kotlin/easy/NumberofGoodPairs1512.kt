@@ -19,4 +19,22 @@ private class Solution1512 {
         }
         return result
     }
+
+    fun numIdenticalPairsII(nums: IntArray): Int {
+        var result = 0
+
+        val numsTimes = IntArray(101)
+
+        for(num in nums) {
+            numsTimes[num] += 1
+        }
+
+        for(i in numsTimes) {
+            if(i > 0) {
+                result += (i * (i-1)/2)
+            }
+        }
+
+        return result
+    }
 }
