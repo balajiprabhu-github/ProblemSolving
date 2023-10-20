@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="LeetcodeEditor">
+    <option name="projectConfig">
+      <map>
+        <entry key="/var/folders/30/lk0ncz957cdg45yjwph8zm1r0000gn/T/leetcode/editor/en/[542]01 Matrix.kt">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="/var/folders/30/lk0ncz957cdg45yjwph8zm1r0000gn/T/leetcode/editor/en/doc/content/[542]01 Matrix.md" />
+              <option name="frontendQuestionId" value="leetcode.com542" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="/var/folders/30/lk0ncz957cdg45yjwph8zm1r0000gn/T/leetcode/editor/en/[542]01 Matrix.kt" />
+              <option name="titleSlug" value="01-matrix" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+        <entry key="/var/folders/30/lk0ncz957cdg45yjwph8zm1r0000gn/T/leetcode/editor/en/[942]DI String Match.kt">
+          <value>
+            <LeetcodeEditor>
+              <option name="contentPath" value="/var/folders/30/lk0ncz957cdg45yjwph8zm1r0000gn/T/leetcode/editor/en/doc/content/[942]DI String Match.md" />
+              <option name="frontendQuestionId" value="leetcode.com942" />
+              <option name="host" value="leetcode.com" />
+              <option name="path" value="/var/folders/30/lk0ncz957cdg45yjwph8zm1r0000gn/T/leetcode/editor/en/[942]DI String Match.kt" />
+              <option name="titleSlug" value="di-string-match" />
+            </LeetcodeEditor>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
