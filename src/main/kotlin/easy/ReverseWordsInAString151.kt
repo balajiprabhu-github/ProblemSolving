@@ -8,7 +8,7 @@ fun main() {
     println(Solution151().reverseWords("a good   example"))
 }
 
-class Solution151 {
+private class Solution151 {
     fun reverseWords(s: String): String {
 
         val list = mutableListOf<String>()

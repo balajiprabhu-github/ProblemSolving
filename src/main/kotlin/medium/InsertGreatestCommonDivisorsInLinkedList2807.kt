@@ -2,7 +2,7 @@ package medium
 
 import datastructure.ListNode
 
-class Solution2807 {
+private class Solution2807 {
 
     fun insertGreatestCommonDivisors(head: ListNode?): ListNode? {
 
