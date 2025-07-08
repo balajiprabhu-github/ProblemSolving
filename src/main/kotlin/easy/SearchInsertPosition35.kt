@@ -1,7 +1,5 @@
 package easy
 
-import medium.Solution2807
-
 fun main() {
     println(Solution35().searchInsert(intArrayOf(1,2,3,4,6),5))
 }
