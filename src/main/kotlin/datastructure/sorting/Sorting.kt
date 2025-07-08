@@ -2,7 +2,7 @@ package datastructure.sorting
 
 fun main() {
     val array = arrayOf(9,5,1,4,8,2,7,10,3)
-    BubbleSort().sort(array)
+    InsertionSort().sort(array)
     println(array.contentToString())
 }
 
@@ -38,4 +38,15 @@ class BubbleSort {
     }
 }
 
+class InsertionSort {
+    fun sort(array: Array<Int>) {
+        for(i in array.indices) {
+            var j = i
+            while( j > 0 && array[j-1] > array[j]) {
+                swap(array,j-1,j)
+                j--
+            }
+        }
+    }
+}
 
