@@ -2,7 +2,7 @@ package datastructure.sorting
 
 fun main() {
     val array = arrayOf(9,5,1,4,8,2,7,10,3)
-    MergeSort().sort(array)
+    QuickSort().sort(array)
     println(array.contentToString())
 }
 
@@ -94,3 +94,38 @@ class MergeSort {
     }
 }
 
+class QuickSort {
+    fun sort(array: Array<Int>) {
+        quickSort(array,0,array.size-1)
+    }
+
+    private fun quickSort(array: Array<Int>, low: Int, high: Int) {
+        if(low < high) {
+            val partitionIndex = partition(array,low,high)
+            quickSort(array,low, partitionIndex-1)
+            quickSort(array,partitionIndex+1, high)
+        }
+    }
+
+    private fun partition(array: Array<Int>, low: Int, high: Int) : Int {
+        val pivot = array[low]
+        var i = low
+        var j = high
+
+        while (i < j) {
+            do {
+                i++
+            } while(i <= high && array[i] < pivot)
+
+            do {
+                j--
+            } while (j >= low && array[j] > pivot)
+
+            if(i < j) {
+                swap(array,i,j)
+            }
+        }
+        swap(array,low,j)
+        return j
+    }
+}
