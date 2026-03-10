@@ -14,6 +14,9 @@ A Kotlin-based DSA learning repository focused on deep understanding of algorith
 - Trace through examples by hand before and after implementing a solution
 - Revisit and question assumptions — "why does this work?" matters as much as "does it work?"
 
+### Notes
+- Do NOT reference or read previously solved solutions in `easy/`, `medium/`, or `hard/`. It has been a few years since those were written and the user may have lost touch — treat every problem as fresh, build from scratch.
+
 ### Roadmap
 
 **Phase 1: Foundations**
