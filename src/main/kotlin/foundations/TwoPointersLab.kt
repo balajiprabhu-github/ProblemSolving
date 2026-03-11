@@ -64,6 +64,28 @@ class TwoPointersLab {
      *
      * Hint: use Char.isLetterOrDigit() and Char.lowercaseChar()
      */
+
+    fun isPalindromeBrute(s: String): Boolean {
+        val filteredString = StringBuilder()
+
+        for (c in s) {
+            if (c in '0'..'9' || c in 'A'..'Z' || c in 'a'..'z') {
+                filteredString.append(c.lowercaseChar())
+            }
+        }
+
+        val a = filteredString.toString()
+        val b = filteredString.toString().reversed()
+
+        for (i in a.indices) {
+            if (a[i] != b[i]) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     fun isPalindrome(s: String): Boolean {
         var left = 0
         var right = s.length - 1
