@@ -85,6 +85,8 @@ class TwoPointersLab {
 
         return true
     }
+    // Time: O(n) — one pass to filter, one to reverse, one to compare
+    // Space: O(n) — filteredString + a + b each up to n chars
 
     fun isPalindrome(s: String): Boolean {
         var left = 0
