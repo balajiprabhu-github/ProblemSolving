@@ -68,27 +68,21 @@ class TwoPointersLab {
         var left = 0
         var right = s.length - 1
 
-        while (left <= right) {
-            if (!s[left].isLetterOrDigit()) {
-                left++
+        while (left < right) {
+            when {
+                !s[left].isLetterOrDigit() -> left++
+                !s[right].isLetterOrDigit() -> right--
+                s[left].lowercaseChar() != s[right].lowercaseChar() -> return false
+                else -> {
+                    left++
+                    right--
+                }
             }
-
-            if (!s[right].isLetterOrDigit()) {
-                right--
-            }
-
-            if (s[left].lowercaseChar() != s[right].lowercaseChar()) {
-                return false
-            }
-
-            left++
-            right--
         }
-
         return true
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n) -  each character is visited at most once by either pointer
+    // Space: O(1) - only two integer pointers, no extra allocation
 
     /**
      * Problem 1b: Two Sum II — Input Array Is Sorted (LeetCode 167)
