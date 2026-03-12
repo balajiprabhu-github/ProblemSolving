@@ -126,11 +126,41 @@ class TwoPointersLab {
      *   If sum < target, the only way to increase it is to move left pointer right.
      *   Every move eliminates an entire row/column of possibilities.
      */
-    fun twoSumII(numbers: IntArray, target: Int): IntArray {
-        TODO("Implement using opposite-ends two pointer")
+    fun twoSumIIBruteForce(numbers: IntArray, target: Int): IntArray {
+        for(i in numbers.indices) {
+            for(j in i+1 until numbers.size) {
+                val sum = numbers[i] + numbers[j]
+                if(sum == target) {
+                    return intArrayOf(i+1,j+1)
+                }
+            }
+        }
+        return intArrayOf()
     }
-    // Time: O(?)
-    // Space: O(?)
+
+    // Time: O(n^2) - here we are using nested loop, looks like sum of n numbers -> n(n+1)/2 -> n^2
+    // Space: O(1) - Apart from local variables (const space), No extra space is used. Result intArray of const size 2
+
+    fun twoSumII(numbers: IntArray, target: Int): IntArray {
+        var left = 0
+        var right = numbers.size-1
+
+        while(left < right) {
+            val sum = numbers[left] + numbers[right]
+            when {
+                sum > target -> right--
+                sum < target -> left++
+                else -> {
+                    // sum == target
+                    return intArrayOf(left+1, right+1)
+                }
+            }
+        }
+
+        return intArrayOf()
+    }
+    // Time: O(n) - iterate through each index in worst case
+    // Space: O(1) - Apart from local variables (const space), No extra space is used. Result intArray of const size 2
 
     /**
      * Problem 1c: Container With Most Water (LeetCode 11)
