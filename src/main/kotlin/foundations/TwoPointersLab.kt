@@ -1,5 +1,8 @@
 package foundations
 
+import kotlin.math.max
+import kotlin.math.min
+
 /**
  * Phase 2, Part 1: Two Pointers Lab
  *
@@ -181,11 +184,43 @@ class TwoPointersLab {
      *   we need a taller side. Moving the taller side can only hurt (width down, height won't go up).
      *   Moving the shorter side might find a taller line -> possible improvement.
      */
-    fun maxWater(height: IntArray): Int {
-        TODO("Implement using opposite-ends two pointer")
+    fun maxWaterBruteForce(height: IntArray): Int {
+        var result = 0
+
+        for( i in height.indices) {
+            for( j in i+1 until height.size) {
+                result = max(min(height[i],height[j]) * (j - i), result)
+            }
+        }
+
+        return result
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n^2) - We have nested loops that will run for sum of n numbers n(n+1)/2  -> n^2 (ignoring const) -> O(n^2)
+    // Space: O(1) - No extra space has been used unless the result variable which is a const
+
+    fun maxWater(height: IntArray): Int {
+        var result  = 0
+        var left = 0
+        var right = height.size-1
+
+        while(left < right) {
+            val area = min(height[left],height[right]) * (right - left)
+            when {
+                height[left] < height[right] -> left++
+                height[left] > height[right] -> right--
+                else -> {
+                    left++
+                }
+            }
+
+            result = max(result, area)
+        }
+
+        return result
+    }
+
+    // Time: O(n) - the while loop will iterate over each index in the array so if there n items in array TC will O(n)
+    // Space: O(1) - No extra space has been used unless the result, left and right variables which are const
 
     /**
      * Problem 1d: Trapping Rain Water (LeetCode 42) [Hard]
