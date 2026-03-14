@@ -78,3 +78,6 @@ outTmp/
 /test.output
 /kotlin-native/dist
 kotlin-ide/
+/CLAUDE.local.md
+/.idea/copilot.data.migration.ask2agent.xml
+/.claude/settings.local.json
