@@ -243,11 +243,34 @@ class TwoPointersLab {
      *     leftMax = max(0,1)=1, water += 1-1=0, left++
      *   ... continue until left >= right
      */
-    fun trap(height: IntArray): Int {
-        TODO("Implement using opposite-ends two pointer with running max")
+    fun trapBruteForce(height: IntArray): Int {
+
+        var result = 0
+
+        for(i in height.indices) {
+
+            var leftMax = 0
+            var rightMax = 0
+
+            for( left in i-1 downTo 0) {
+                if(height[left] > leftMax) {
+                    leftMax = height[left]
+                }
+            }
+
+            for( right in i+1 until height.size) {
+                if(height[right] > rightMax) {
+                    rightMax = height[right]
+                }
+            }
+
+            result += maxOf(0,min(leftMax, rightMax) - height[i])
+        }
+
+        return result
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n^2) -> for each index i, we are iterate two inner loops combined into (n-1) so n(n-1) -> n^2 ignoring constant.
+    // Space: O(1) -> no extra space have we used other than constant variables
 
 
     // ═══════════════════════════════════════════════════════════
@@ -545,7 +568,7 @@ fun main() {
     println(lab.isPalindrome("race a car"))                       // false
     println(lab.twoSumII(intArrayOf(2, 7, 11, 15), 9).toList())  // [1, 2]
     println(lab.maxWater(intArrayOf(1, 8, 6, 2, 5, 4, 8, 3, 7))) // 49
-    println(lab.trap(intArrayOf(0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1))) // 6
+    println(lab.trapBruteForce(intArrayOf(0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1))) // 6
 
     // Pattern 2 tests
     println("\n=== Pattern 2: Fast / Slow ===")
