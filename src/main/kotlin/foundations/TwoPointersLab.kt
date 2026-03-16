@@ -273,6 +273,21 @@ class TwoPointersLab {
     // Space: O(1) -> no extra space have we used other than constant variables
 
 
+    fun trap(height: IntArray): Int {
+
+        var left = 0
+        var right = height.size-1
+        var leftMax = 0
+        var rightMax = 0
+
+        while(left <= right) {
+
+        }
+
+
+    }
+
+
     // ═══════════════════════════════════════════════════════════
     // PATTERN 2: FAST / SLOW (SAME DIRECTION)
     // Template:
