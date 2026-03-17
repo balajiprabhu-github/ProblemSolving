@@ -274,18 +274,30 @@ class TwoPointersLab {
 
 
     fun trap(height: IntArray): Int {
-
         var left = 0
         var right = height.size-1
+
         var leftMax = 0
         var rightMax = 0
 
+        var water = 0
+
         while(left <= right) {
-
+            if(height[left] <= height[right]) {
+                leftMax = max(leftMax, height[left])
+                water += leftMax - height[left]
+                left++
+            } else {
+                rightMax = max(rightMax, height[right])
+                water += rightMax - height[right]
+                right--
+            }
         }
-
-
+        return water
     }
+
+    // Time: O(n) -> we are iterating each index from both the ends. So n times loop will execute
+    // Space: O(1) -> No extra space has used here apart from constant variables
 
 
     // ═══════════════════════════════════════════════════════════
