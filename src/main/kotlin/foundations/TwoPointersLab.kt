@@ -59,12 +59,6 @@ class TwoPointersLab {
      * Example: "A man, a plan, a canal: Panama" -> true
      * Example: "race a car" -> false
      *
-     * Trace by hand first:
-     *   s = "A man, a plan, a canal: Panama"
-     *   left=0 ('A'), right=29 ('a') — both alphanumeric, same letter ignoring case -> move both
-     *   left=1 (' '), — not alphanumeric -> skip left only
-     *   ... keep going until left >= right
-     *
      * Hint: use Char.isLetterOrDigit() and Char.lowercaseChar()
      */
 
@@ -119,11 +113,6 @@ class TwoPointersLab {
      *
      * Example: numbers = [2,7,11,15], target = 9 -> [1,2]
      *
-     * Trace by hand first:
-     *   left=0 (2), right=3 (15) -> sum=17 > 9 -> move right left
-     *   left=0 (2), right=2 (11) -> sum=13 > 9 -> move right left
-     *   left=0 (2), right=1 (7)  -> sum=9 == target -> return [1,2]
-     *
      * Key insight: why does this work on a sorted array?
      *   If sum > target, the only way to reduce it is to move right pointer left.
      *   If sum < target, the only way to increase it is to move left pointer right.
@@ -172,12 +161,6 @@ class TwoPointersLab {
      * form a container that holds the most water.
      *
      * Example: height = [1,8,6,2,5,4,8,3,7] -> 49
-     *
-     * Trace by hand first:
-     *   left=0 (h=1), right=8 (h=7) -> area = min(1,7) * 8 = 8 -> move the shorter side
-     *   left=1 (h=8), right=8 (h=7) -> area = min(8,7) * 7 = 49 -> move shorter (right)
-     *   left=1 (h=8), right=7 (h=3) -> area = min(8,3) * 6 = 18 -> move shorter (right)
-     *   ... continue
      *
      * Key insight: why move the shorter side?
      *   Width only decreases as we move inward. To have any chance of more area,
@@ -233,15 +216,6 @@ class TwoPointersLab {
      * Two-pointer insight: instead of pre-computing arrays, track running max from each side.
      *   At each step, the side with the smaller max is the bottleneck.
      *   Process that side: water += maxSide - height[pointer], then move that pointer.
-     *
-     * Trace by hand first with [0,1,0,2,1,0,1,3,2,1,2,1]:
-     *   left=0, right=11, leftMax=0, rightMax=0
-     *   height[left]=0 <= height[right]=1 -> process left
-     *     leftMax = max(0,0)=0, water += 0-0=0, left++
-     *   left=1, right=11, leftMax=0, rightMax=0
-     *   height[left]=1 > height[right]=1? No -> process left
-     *     leftMax = max(0,1)=1, water += 1-1=0, left++
-     *   ... continue until left >= right
      */
     fun trapBruteForce(height: IntArray): Int {
 
@@ -318,17 +292,6 @@ class TwoPointersLab {
      *
      * Example: nums = [1,1,2] -> 2, nums = [1,2,_]
      * Example: nums = [0,0,1,1,1,2,2,3,3,4] -> 5, nums = [0,1,2,3,4,_,_,_,_,_]
-     *
-     * Trace by hand first:
-     *   nums = [0,0,1,1,1,2,2,3,3,4]
-     *   slow=0
-     *   fast=0: nums[0]=0, first element always keep -> slow=1
-     *   fast=1: nums[1]=0 == nums[0]=0 -> duplicate, skip
-     *   fast=2: nums[2]=1 != nums[slow-1]=0 -> keep: nums[slow]=1, slow=2
-     *   fast=3: nums[3]=1 == nums[slow-1]=1 -> duplicate, skip
-     *   fast=4: nums[4]=1 == nums[slow-1]=1 -> duplicate, skip
-     *   fast=5: nums[5]=2 != nums[slow-1]=1 -> keep: nums[slow]=2, slow=3
-     *   ... result: slow=5
      */
     fun removeDuplicates(nums: IntArray): Int {
         TODO("Implement using fast/slow two pointer")
@@ -343,15 +306,6 @@ class TwoPointersLab {
      * Must do in-place.
      *
      * Example: nums = [0,1,0,3,12] -> [1,3,12,0,0]
-     *
-     * Trace by hand first:
-     *   slow=0
-     *   fast=0: nums[0]=0  -> zero, skip
-     *   fast=1: nums[1]=1  -> non-zero: swap nums[slow] and nums[fast] -> slow=1
-     *   fast=2: nums[2]=0  -> zero, skip
-     *   fast=3: nums[3]=3  -> non-zero: swap nums[slow] and nums[fast] -> slow=2
-     *   fast=4: nums[4]=12 -> non-zero: swap nums[slow] and nums[fast] -> slow=3
-     *   result: [1,3,12,0,0]
      *
      * Why swap instead of just write?
      *   Swap preserves the zero that was at slow's position — it gets pushed forward.
@@ -375,22 +329,6 @@ class TwoPointersLab {
      *   Use Floyd's algorithm: fast moves 2 steps, slow moves 1 step.
      *   Phase 1: detect cycle (fast == slow inside cycle)
      *   Phase 2: find cycle entrance (reset one pointer to head, both move 1 step)
-     *
-     * Trace by hand with [1,3,4,2,2]:
-     *   Treat as: 0->1->3->2->4->2->4->... (cycle at 2)
-     *   Phase 1:
-     *     slow=0->1, fast=0->1->3
-     *     slow=1->3, fast=3->2->4
-     *     slow=3->2, fast=4->2->4  -- wait, let me retrace...
-     *     slow=nums[slow], fast=nums[nums[fast]]
-     *     slow=nums[0]=1, fast=nums[nums[0]]=nums[1]=3
-     *     slow=nums[1]=3, fast=nums[nums[3]]=nums[2]=4
-     *     slow=nums[3]=2, fast=nums[nums[4]]=nums[2]=4
-     *     slow=nums[2]=4, fast=nums[nums[4]]=nums[2]=4 -> slow==fast=4
-     *   Phase 2: reset slow=0, fast stays at 4
-     *     slow=nums[0]=1, fast=nums[4]=2
-     *     slow=nums[1]=3, fast=nums[2]=4
-     *     slow=nums[3]=2, fast=nums[4]=2 -> slow==fast=2 -> duplicate is 2 ✓
      */
     fun findDuplicate(nums: IntArray): Int {
         TODO("Implement using Floyd's cycle detection (fast/slow pointers on values)")
@@ -417,15 +355,6 @@ class TwoPointersLab {
      *
      * Example: s = "ace", t = "abcde" -> true
      * Example: s = "aec", t = "abcde" -> false
-     *
-     * Trace by hand first:
-     *   s="ace", t="abcde"
-     *   i=0('a'), j=0('a') -> match: i=1, j=1
-     *   i=1('c'), j=1('b') -> no match: j=2
-     *   i=1('c'), j=2('c') -> match: i=2, j=3
-     *   i=2('e'), j=3('d') -> no match: j=4
-     *   i=2('e'), j=4('e') -> match: i=3, j=5
-     *   i==s.length -> return true
      */
     fun isSubsequence(s: String, t: String): Boolean {
         TODO("Implement using two-sequence two pointer")
@@ -446,14 +375,6 @@ class TwoPointersLab {
      *   p2 = n-1 (last in nums2)
      *   p  = m+n-1 (last position in nums1)
      *   Place the larger of nums1[p1] vs nums2[p2] at position p, then move that pointer.
-     *
-     * Trace by hand first:
-     *   p1=2(3), p2=2(6), p=5 -> 6>3: nums1[5]=6, p2=1, p=4
-     *   p1=2(3), p2=1(5), p=4 -> 5>3: nums1[4]=5, p2=0, p=3
-     *   p1=2(3), p2=0(2), p=3 -> 3>2: nums1[3]=3, p1=1, p=2
-     *   p1=1(2), p2=0(2), p=2 -> 2>=2: nums1[2]=2, p1=0, p=1
-     *   p1=0(1), p2=0(2), p=1 -> 2>1: nums1[1]=2, p2=-1, p=0
-     *   p2 exhausted -> done. nums1=[1,2,2,3,5,6] ✓
      */
     fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int): Unit {
         TODO("Implement using reverse two-sequence merge")
@@ -473,15 +394,6 @@ class TwoPointersLab {
      * Key insight: process from RIGHT to LEFT. When you see '#', skip the next real char.
      *   Track a skip counter. If skip > 0 and current char is not '#', consume skip.
      *   Compare characters only when both pointers land on a real character.
-     *
-     * Trace by hand first:
-     *   s="ab#c", t="ad#c"
-     *   i=3('c'),j=3('c'), skip_s=0,skip_t=0 -> both real, 'c'=='c' -> i=2,j=2
-     *   i=2('#'),j=2('#') -> both backspace: skip_s=1, skip_t=1 -> i=1,j=1
-     *   i=1('b'),j=1('d') -> skip_s=1>0: consume skip, skip_s=0, i=0
-     *                         skip_t=1>0: consume skip, skip_t=0, j=0
-     *   i=0('a'),j=0('a') -> both real, 'a'=='a' -> i=-1, j=-1
-     *   both exhausted -> true ✓
      */
     fun backspaceCompare(s: String, t: String): Boolean {
         TODO("Implement using right-to-left two-sequence pointer")
@@ -510,16 +422,6 @@ class TwoPointersLab {
      *   nums[mid] == 0 -> swap(mid, low), low++, mid++
      *   nums[mid] == 1 -> mid++ (already in place)
      *   nums[mid] == 2 -> swap(mid, high), high-- (DON'T mid++, swapped element unseen)
-     *
-     * Trace by hand first:
-     *   [2,0,2,1,1,0], low=0, mid=0, high=5
-     *   mid=0: nums[0]=2 -> swap(0,5)=[0,0,2,1,1,2], high=4
-     *   mid=0: nums[0]=0 -> swap(0,0)=[0,0,2,1,1,2], low=1, mid=1
-     *   mid=1: nums[1]=0 -> swap(1,1)=[0,0,2,1,1,2], low=2, mid=2
-     *   mid=2: nums[2]=2 -> swap(2,4)=[0,0,1,1,2,2], high=3
-     *   mid=2: nums[2]=1 -> mid=3
-     *   mid=3: nums[3]=1 -> mid=4
-     *   mid=4 > high=3 -> done ✓
      */
     fun sortColors(nums: IntArray): Unit {
         TODO("Implement Dutch National Flag with low/mid/high three pointers")
@@ -541,21 +443,6 @@ class TwoPointersLab {
      *   1. Skip duplicate values for i (if nums[i] == nums[i-1], continue)
      *   2. After finding a triplet, skip duplicates for left and right pointers too
      *   3. Early exit: if nums[i] > 0, no triplet can sum to 0 (array is sorted)
-     *
-     * Trace by hand first:
-     *   sorted: [-4,-1,-1,0,1,2]
-     *   i=0: nums[0]=-4, target=4, left=1(-1), right=5(2) -> sum=-3<4 -> left++
-     *     left=2(-1), right=5(2) -> sum=1<4 -> left++
-     *     left=3(0),  right=5(2) -> sum=2<4 -> left++
-     *     left=4(1),  right=5(2) -> sum=3<4 -> left++
-     *     left>=right -> done with i=0
-     *   i=1: nums[1]=-1, target=1, left=2(-1), right=5(2) -> sum=1==1 -> add [-1,-1,2]
-     *     skip dups: left=3(0), right=4(1) -> sum=1==1 -> add [-1,0,1]
-     *     skip dups: left=4, right=3 -> left>=right -> done
-     *   i=2: nums[2]=-1 == nums[1]=-1 -> skip (duplicate i)
-     *   i=3: nums[3]=0 > 0? No. target=-0=0, left=4(1), right=5(2) -> sum=3>0 -> right--
-     *     left>=right -> done
-     *   result: [[-1,-1,2],[-1,0,1]] ✓
      */
     fun threeSum(nums: IntArray): List<List<Int>> {
         TODO("Sort + fix i + Pattern 1 on remaining subarray")
@@ -573,11 +460,7 @@ class TwoPointersLab {
      * Strategy: Extend 3Sum by adding one more outer loop.
      *   Fix i, fix j (i+1..n-2), then two-pointer on j+1..n-1.
      *   Skip duplicates at every level (i, j, left, right).
-     *
-     * Key early-exit optimizations:
-     *   - If nums[i]+nums[i+1]+nums[i+2]+nums[i+3] > target -> break (too large)
-     *   - If nums[i]+nums[n-3]+nums[n-2]+nums[n-1] < target -> continue (too small)
-     *   - Same pruning for j level
+     *   Early-exit prunings apply at both i and j levels (min possible sum > target, max possible sum < target).
      */
     fun fourSum(nums: IntArray, target: Int): List<List<Int>> {
         TODO("Sort + fix i + fix j + Pattern 1 on remaining subarray")
