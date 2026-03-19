@@ -332,15 +332,23 @@ class TwoPointersLab {
      * Must do in-place.
      *
      * Example: nums = [0,1,0,3,12] -> [1,3,12,0,0]
-     *
+     * Example: nums = [1,2,4,0,5,0,0,8,3,0,6] -> [1,2,4,5,8,3,6,0,0,0,0]
      * Why swap instead of just write?
      *   Swap preserves the zero that was at slow's position — it gets pushed forward.
      */
     fun moveZeroes(nums: IntArray): Unit {
-        TODO("Implement using fast/slow two pointer")
+        var slow = 0
+        for (fast in nums.indices) {
+            if (nums[fast] != 0) {
+                val temp = nums[slow]
+                nums[slow] = nums[fast]
+                nums[fast] = temp
+                slow++
+            }
+        }
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n) - We are performing inplace iteration, fast will move to each index of the nums array
+    // Space: O(1) - No extra space other than slow and fast pointer which are const
 
     /**
      * Problem 2c: Find the Duplicate Number (LeetCode 287) [Floyd's Cycle]
