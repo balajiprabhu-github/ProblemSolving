@@ -294,10 +294,36 @@ class TwoPointersLab {
      * Example: nums = [0,0,1,1,1,2,2,3,3,4] -> 5, nums = [0,1,2,3,4,_,_,_,_,_]
      */
     fun removeDuplicates(nums: IntArray): Int {
-        TODO("Implement using fast/slow two pointer")
+        var fast = 1
+        var slow = 0
+
+        while(fast < nums.size) {
+            if(nums[slow] == nums[fast]) {
+                fast++
+            } else {
+                nums[slow+1] = nums[fast]
+                slow++
+                fast++
+            }
+        }
+
+        return slow+1
     }
-    // Time: O(?)
-    // Space: O(?)
+
+    fun removeDuplicatesII(nums: IntArray): Int {
+
+        var slow = 1
+        for(fast in 1 until nums.size) {
+            if(nums[fast] != nums[fast-1]) {
+                nums[slow] = nums[fast]
+                slow++
+            }
+        }
+
+        return slow
+    }
+    // Time: O(n) - fast pointer will access each index in the array of size n
+    // Space: O(1) - No extra space other than fast and slow which are const
 
     /**
      * Problem 2b: Move Zeroes (LeetCode 283)
