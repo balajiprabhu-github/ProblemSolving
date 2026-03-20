@@ -365,10 +365,19 @@ class TwoPointersLab {
      *   Phase 2: find cycle entrance (reset one pointer to head, both move 1 step)
      */
     fun findDuplicate(nums: IntArray): Int {
-        TODO("Implement using Floyd's cycle detection (fast/slow pointers on values)")
+        var slow = 0
+
+        for(fast in 0 until nums.size step 2) {
+            if(nums[fast] == nums[slow]) {
+                return nums[slow]
+            }
+            slow++
+        }
+
+        return 0
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n)
+    // Space: O(1)
 
 
     // ═══════════════════════════════════════════════════════════
