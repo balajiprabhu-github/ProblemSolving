@@ -366,18 +366,24 @@ class TwoPointersLab {
      */
     fun findDuplicate(nums: IntArray): Int {
         var slow = 0
+        var fast = 0
 
-        for(fast in 0 until nums.size step 2) {
-            if(nums[fast] == nums[slow]) {
-                return nums[slow]
-            }
-            slow++
+        do {
+            slow = nums[slow]
+            fast = nums[nums[fast]]
+        } while(slow != fast)
+
+        slow = 0
+
+        while(slow != fast) {
+            slow = nums[slow]
+            fast = nums[fast]
         }
 
-        return 0
+        return slow
     }
-    // Time: O(n)
-    // Space: O(1)
+    // Time: O(n) - visiting each index until finding the duplicate for n items in the array
+    // Space: O(1) - only const no other extra space
 
 
     // ═══════════════════════════════════════════════════════════
