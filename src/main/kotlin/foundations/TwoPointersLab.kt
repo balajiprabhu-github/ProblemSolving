@@ -406,10 +406,18 @@ class TwoPointersLab {
      * Example: s = "aec", t = "abcde" -> false
      */
     fun isSubsequence(s: String, t: String): Boolean {
-        TODO("Implement using two-sequence two pointer")
+        var i = 0
+        var j = 0
+
+        while(i < s.length && j < t.length) {
+            if(s[i] == t[j])  i++
+            j++
+        }
+
+        return i == s.length
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(t) — we scan t fully in the worst case, s partially.
+    // Space: O(1) No extra space other than const
 
     /**
      * Problem 3b: Merge Sorted Array (LeetCode 88)
