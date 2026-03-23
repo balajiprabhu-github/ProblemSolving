@@ -434,10 +434,25 @@ class TwoPointersLab {
      *   Place the larger of nums1[p1] vs nums2[p2] at position p, then move that pointer.
      */
     fun merge(nums1: IntArray, m: Int, nums2: IntArray, n: Int): Unit {
-        TODO("Implement using reverse two-sequence merge")
+
+        var p1 = m-1
+        var p2 = n-1
+
+        var p = (m+n) - 1
+
+        while(p1 >= 0 && p2 >= 0) {
+            if(nums1[p1] > nums2[p2]) {
+                nums1[p] = nums1[p1--]
+            } else {
+                nums1[p] = nums2[p2--]
+            }
+            p--
+        }
+
+        while (p2 >= 0) { nums1[p--] = nums2[p2--] }
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(m+n) - in worst case loop traverse m+n times
+    // Space: O(1) - No extra space except const
 
     /**
      * Problem 3c: Backspace String Compare (LeetCode 844)
