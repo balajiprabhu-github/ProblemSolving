@@ -468,10 +468,35 @@ class TwoPointersLab {
      *   Compare characters only when both pointers land on a real character.
      */
     fun backspaceCompare(s: String, t: String): Boolean {
-        TODO("Implement using right-to-left two-sequence pointer")
+        var i = s.length-1
+        var j = t.length-1
+
+        var sSkip = 0
+        var tSkip = 0
+
+        while(i >= 0 || j >= 0) {
+            while( i >= 0 && (s[i] == '#' || sSkip > 0)){
+                if(s[i] == '#') sSkip++
+                else sSkip--
+                i--
+            }
+
+            while(j >= 0 && (t[j] == '#' || tSkip > 0)) {
+                if(t[j] == '#')  tSkip++
+                else tSkip--
+                j--
+            }
+
+            if ((i >= 0) != (j >= 0)) return false
+            if (i >= 0 && s[i] != t[j]) return false
+            i--
+            j--
+        }
+
+        return true
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(m+n) we are iterating to each char from reverse  m = s.length & n = t.length
+    // Space: O(1) no extra space other than const
 
 
     // ═══════════════════════════════════════════════════════════
