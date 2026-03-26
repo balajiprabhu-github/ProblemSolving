@@ -521,10 +521,31 @@ class TwoPointersLab {
      *   nums[mid] == 2 -> swap(mid, high), high-- (DON'T mid++, swapped element unseen)
      */
     fun sortColors(nums: IntArray): Unit {
-        TODO("Implement Dutch National Flag with low/mid/high three pointers")
+        var low = 0
+        var mid = 0
+        var high = nums.size-1
+
+        while(mid <= high) {
+            if(nums[mid] == 0) {
+                if(low != mid) {
+                    val temp = nums[low]
+                    nums[low] = nums[mid]
+                    nums[mid] = temp
+                }
+                low++
+                mid++
+            } else if(nums[mid] == 1) {
+                mid++
+            } else {
+                val temp = nums[mid]
+                nums[mid] = nums[high]
+                nums[high] = temp
+                high--
+            }
+        }
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n) - we are iterating each item at max once for n items
+    // Space: O(1) - No extra space other than const
 
     /**
      * Problem 4b: 3Sum (LeetCode 15)
