@@ -554,19 +554,12 @@ class TwoPointersLab {
      *
      * Example: nums = [-1,0,1,2,-1,-4] -> [[-1,-1,2],[-1,0,1]]
      *
-     * Strategy: Sort first, then for each element at index i,
-     *   run Pattern 1 (opposite ends) on the subarray i+1..end targeting -nums[i].
-     *
-     * Key details to get right:
-     *   1. Skip duplicate values for i (if nums[i] == nums[i-1], continue)
-     *   2. After finding a triplet, skip duplicates for left and right pointers too
-     *   3. Early exit: if nums[i] > 0, no triplet can sum to 0 (array is sorted)
      */
     fun threeSum(nums: IntArray): List<List<Int>> {
         TODO("Sort + fix i + Pattern 1 on remaining subarray")
     }
-    // Time: O(?)  hint: sorting + outer loop + inner two-pointer
-    // Space: O(?) hint: sorting in Kotlin uses O(log n) stack
+    // Time: O(?)
+    // Space: O(?)
 
     /**
      * Problem 4c: 4Sum (LeetCode 18)
@@ -575,10 +568,6 @@ class TwoPointersLab {
      *
      * Example: nums = [1,0,-1,0,-2,2], target = 0 -> [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]
      *
-     * Strategy: Extend 3Sum by adding one more outer loop.
-     *   Fix i, fix j (i+1..n-2), then two-pointer on j+1..n-1.
-     *   Skip duplicates at every level (i, j, left, right).
-     *   Early-exit prunings apply at both i and j levels (min possible sum > target, max possible sum < target).
      */
     fun fourSum(nums: IntArray, target: Int): List<List<Int>> {
         TODO("Sort + fix i + fix j + Pattern 1 on remaining subarray")
