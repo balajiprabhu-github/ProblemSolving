@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Two Pointers — Cheat Sheet</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background-color: #c49a6c;
+      background-image:
+        radial-gradient(ellipse at 10% 10%, rgba(0,0,0,0.1) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 90%, rgba(0,0,0,0.08) 0%, transparent 50%),
+        url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='0' y='0' width='3' height='3' fill='rgba(0,0,0,0.03)'/%3E%3C/svg%3E");
+      padding: 40px 30px 80px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    header h1 {
+      font-family: 'Caveat', cursive;
+      font-size: 3.2rem;
+      color: #fff;
+      text-shadow: 2px 3px 6px rgba(0,0,0,0.35);
+    }
+    header p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
+      margin-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Section ── */
+    .section { margin-bottom: 50px; }
+    .section-label {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      color: rgba(255,255,255,0.95);
+      margin-bottom: 22px;
+      padding-left: 14px;
+      border-left: 5px solid rgba(255,255,255,0.55);
+      text-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+
+    /* ── Board grid ── */
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      align-items: flex-start;
+    }
+
+    /* ── Note base ── */
+    .note {
+      position: relative;
+      border-radius: 2px;
+      padding: 20px 18px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: default;
+    }
+    .note:hover {
+      transform: scale(1.04) rotate(0deg) !important;
+      z-index: 20;
+      box-shadow: 8px 12px 24px rgba(0,0,0,0.35) !important;
+    }
+
+    /* Pin */
+    .note::before {
+      content: '';
+      position: absolute;
+      top: -9px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 38% 35%, #ff7675, #d63031);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.45);
+      z-index: 2;
+    }
+
+    /* Fold */
+    .note::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 22px; height: 22px;
+      background: rgba(0,0,0,0.09);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      border-radius: 0 0 2px 0;
+    }
+
+    /* Widths */
+    .w-sm  { width: 200px; }
+    .w-md  { width: 260px; }
+    .w-lg  { width: 320px; }
+    .w-xl  { width: 400px; }
+
+    /* Colors */
+    .blue   { background: #a8d8ea; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+    .green  { background: #b8e994; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+    .yellow { background: #ffeaa7; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+    .pink   { background: #fda7df; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+    .orange { background: #ffc9a0; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+    .purple { background: #d4b8e0; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+    .white  { background: #f5f6fa; box-shadow: 5px 5px 12px rgba(0,0,0,0.22); }
+
+    /* Rotations */
+    .r1  { transform: rotate(-2deg); }
+    .r2  { transform: rotate(1.5deg); }
+    .r3  { transform: rotate(-1deg); }
+    .r4  { transform: rotate(2.5deg); }
+    .r5  { transform: rotate(-1.5deg); }
+    .r6  { transform: rotate(0.8deg); }
+    .r7  { transform: rotate(-2.5deg); }
+    .r8  { transform: rotate(1deg); }
+
+    /* Typography inside notes */
+    .tag {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.1);
+      color: rgba(0,0,0,0.5);
+      width: fit-content;
+    }
+
+    .note-title {
+      font-family: 'Caveat', cursive;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: rgba(0,0,0,0.75);
+      line-height: 1.2;
+    }
+
+    .note-body {
+      font-size: 0.82rem;
+      color: rgba(0,0,0,0.65);
+      line-height: 1.6;
+    }
+
+    .note-body strong {
+      color: rgba(0,0,0,0.8);
+      font-weight: 600;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(0,0,0,0.08);
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: rgba(0,0,0,0.75);
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px dashed rgba(0,0,0,0.18);
+      margin: 4px 0;
+    }
+
+    ul {
+      padding-left: 16px;
+    }
+
+    ul li {
+      font-size: 0.82rem;
+      color: rgba(0,0,0,0.65);
+      line-height: 1.7;
+    }
+
+    ul li strong {
+      color: rgba(0,0,0,0.8);
+    }
+
+    .emoji { font-size: 1rem; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Two Pointers — Cheat Sheet</h1>
+  <p>Patterns · Triggers · Invariants · Traps · Interview Tips</p>
+</header>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 0 — CORE IDEA
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Core Idea</div>
+  <div class="board">
+
+    <div class="note blue w-md r2">
+      <div class="tag">What is it?</div>
+      <div class="note-title">Two Pointers</div>
+      <div class="note-body">
+        Use two indices to scan an array (or two arrays) simultaneously —
+        eliminating the need for a nested loop by moving pointers
+        <strong>deliberately</strong> based on a condition.
+        <hr class="divider"/>
+        Brute force checks all pairs: <strong>O(n²)</strong><br/>
+        Two pointers collapses that to: <strong>O(n)</strong>
+      </div>
+    </div>
+
+    <div class="note yellow w-md r5">
+      <div class="tag">When to reach for it</div>
+      <div class="note-title">Universal Triggers</div>
+      <ul>
+        <li>Sorted array + <strong>pair/triplet sum</strong></li>
+        <li>"Find two elements that…"</li>
+        <li>"In-place" modification of array</li>
+        <li>Compare two strings/sequences</li>
+        <li>"Unique" combinations / no duplicates</li>
+        <li>Shrink a window from both ends</li>
+      </ul>
+    </div>
+
+    <div class="note green w-sm r3">
+      <div class="tag">Golden Rule</div>
+      <div class="note-title">Every pointer move must be justified</div>
+      <div class="note-body">
+        Never move a pointer arbitrarily.
+        Ask: <strong>"Does moving this pointer keep me on track toward the answer?"</strong>
+        If you can't answer — rethink.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 1 — PATTERN 1
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Pattern 1 — Opposite Ends (Converging)</div>
+  <div class="board">
+
+    <div class="note blue w-sm r1">
+      <div class="tag">Setup</div>
+      <div class="note-title">left = 0<br/>right = n−1</div>
+      <div class="note-body">
+        Both pointers start at opposite ends and move <strong>toward each other</strong>.
+        Loop runs while <code>left &lt; right</code>.
+      </div>
+    </div>
+
+    <div class="note yellow w-md r4">
+      <div class="tag">Trigger</div>
+      <div class="note-title">When to use</div>
+      <ul>
+        <li>Sorted array + pair that meets a condition</li>
+        <li>Palindrome check</li>
+        <li>Max area / water trapped problems</li>
+        <li>"Find two numbers that sum to X"</li>
+      </ul>
+      <hr class="divider"/>
+      <div class="note-body"><strong>Mnemonic:</strong> Two people walking toward each other on a number line.</div>
+    </div>
+
+    <div class="note green w-md r6">
+      <div class="tag">Invariant</div>
+      <div class="note-title">Why it works</div>
+      <div class="note-body">
+        Array is sorted → moving <code>left++</code> <strong>increases</strong> sum,
+        moving <code>right--</code> <strong>decreases</strong> sum.
+        Every move discards an entire row/column of the brute-force matrix.
+        <hr class="divider"/>
+        <strong>Breaks if:</strong> array is not sorted — movement has no guaranteed direction.
+      </div>
+    </div>
+
+    <div class="note pink w-sm r2">
+      <div class="tag">Trap</div>
+      <div class="note-title">Moving the wrong pointer</div>
+      <div class="note-body">
+        In Container With Most Water — moving the <strong>taller</strong> wall never helps.
+        Width shrinks AND height is still capped by the shorter side.
+        <hr class="divider"/>
+        Always move the <strong>limiting factor</strong>.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 2 — PATTERN 2
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Pattern 2 — Fast / Slow (Same Direction)</div>
+  <div class="board">
+
+    <div class="note blue w-sm r5">
+      <div class="tag">Setup</div>
+      <div class="note-title">slow = 0<br/>fast = 0 or 1</div>
+      <div class="note-body">
+        Both start near the beginning and move in the <strong>same direction</strong>.
+        <code>fast</code> scouts ahead; <code>slow</code> marks the "write position".
+      </div>
+    </div>
+
+    <div class="note yellow w-md r3">
+      <div class="tag">Trigger</div>
+      <div class="note-title">When to use</div>
+      <ul>
+        <li>Remove/partition elements in-place</li>
+        <li>Detect cycle in a linked list / array</li>
+        <li>"Move all X to the end"</li>
+        <li>"Remove duplicates in-place"</li>
+        <li>Find duplicate without extra space</li>
+      </ul>
+    </div>
+
+    <div class="note green w-md r1">
+      <div class="tag">Invariant</div>
+      <div class="note-title">Slow = last valid position</div>
+      <div class="note-body">
+        Everything at <code>0..slow</code> is already "processed and correct".
+        <code>fast</code> scans the rest looking for the next valid element.
+        When found → <code>slow++</code> then place it there.
+        <hr class="divider"/>
+        <strong>Floyd's Cycle:</strong> Phase 2 — one pointer from <strong>index 0</strong>,
+        one from meeting point. They meet at the cycle entrance = duplicate.
+      </div>
+    </div>
+
+    <div class="note pink w-sm r7">
+      <div class="tag">Trap</div>
+      <div class="note-title">Floyd's Phase 2 start</div>
+      <div class="note-body">
+        Phase 2: second pointer starts at <strong>index 0</strong> — NOT at the meeting point.
+        This is the #1 mistake on LC 287.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 3 — PATTERN 3
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Pattern 3 — Two Sequences</div>
+  <div class="board">
+
+    <div class="note blue w-sm r2">
+      <div class="tag">Setup</div>
+      <div class="note-title">i → string/array 1<br/>j → string/array 2</div>
+      <div class="note-body">
+        One pointer per sequence. They move <strong>independently</strong> based on match or mismatch.
+      </div>
+    </div>
+
+    <div class="note yellow w-md r6">
+      <div class="tag">Trigger</div>
+      <div class="note-title">When to use</div>
+      <ul>
+        <li>Compare two strings/arrays</li>
+        <li>"Is X a subsequence of Y?"</li>
+        <li>Merge two sorted arrays in-place</li>
+        <li>Process two strings with special characters</li>
+      </ul>
+    </div>
+
+    <div class="note green w-md r4">
+      <div class="tag">Key Insight</div>
+      <div class="note-title">Forward vs Reverse</div>
+      <div class="note-body">
+        <strong>Forward</strong> (Is Subsequence): i advances only on match — j always advances.<br/><br/>
+        <strong>Reverse</strong> (Backspace Compare, Merge Sorted Array): process from the back
+        when a character/element <strong>affects what came before it</strong> (backspace, overwrite risk).
+        <hr class="divider"/>
+        Rule: if future characters invalidate past ones → go backward.
+      </div>
+    </div>
+
+    <div class="note pink w-sm r8">
+      <div class="tag">Trap — LC 88</div>
+      <div class="note-title">Fill from front = overwrite bug</div>
+      <div class="note-body">
+        Merging into nums1 from the front overwrites unread values.
+        Always fill from the <strong>back</strong> into the empty slots.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 4 — PATTERN 4
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Pattern 4 — kSum / Partition</div>
+  <div class="board">
+
+    <div class="note blue w-md r3">
+      <div class="tag">kSum Structure</div>
+      <div class="note-title">k−2 loops + Two Pointers</div>
+      <div class="note-body">
+        <strong>3Sum:</strong> 1 loop + 2 pointers → O(n²)<br/>
+        <strong>4Sum:</strong> 2 loops + 2 pointers → O(n³)<br/>
+        <strong>kSum:</strong> k−2 loops + 2 pointers → O(n^(k−1))
+        <hr class="divider"/>
+        Always <strong>sort first</strong>. Reduce k down to 2Sum (two pointers).
+      </div>
+    </div>
+
+    <div class="note yellow w-lg r1">
+      <div class="tag">Duplicate Skipping — Know All 4 Levels</div>
+      <div class="note-title">Skip guards per pointer</div>
+      <div class="note-body">
+        <code>i &gt; 0 &amp;&amp; nums[i] == nums[i−1]</code> → skip anchor i<br/>
+        <code>j &gt; i+1 &amp;&amp; nums[j] == nums[j−1]</code> → skip anchor j<br/>
+        <code>left &lt; right &amp;&amp; nums[left] == nums[left−1]</code> → skip after match<br/>
+        <code>left &lt; right &amp;&amp; nums[right] == nums[right+1]</code> → skip after match
+        <hr class="divider"/>
+        Each anchor's guard: <strong>"have I moved past my starting position?"</strong><br/>
+        <code>i</code> starts at 0 → guard is <code>i &gt; 0</code><br/>
+        <code>j</code> starts at <code>i+1</code> → guard is <code>j &gt; i+1</code>
+      </div>
+    </div>
+
+    <div class="note green w-sm r5">
+      <div class="tag">After a match</div>
+      <div class="note-title">Always move BOTH pointers inward</div>
+      <div class="note-body">
+        <code>left++</code> and <code>right--</code>
+        <hr class="divider"/>
+        Standing still after a match = <strong>infinite loop</strong>.
+        This is the #1 bug in 3Sum/4Sum.
+      </div>
+    </div>
+
+    <div class="note orange w-sm r7">
+      <div class="tag">Dutch National Flag</div>
+      <div class="note-title">3-pointer partition</div>
+      <div class="note-body">
+        <code>0</code> → swap(low, mid), low++, mid++<br/>
+        <code>1</code> → mid++<br/>
+        <code>2</code> → swap(high, mid), high-- <em>(mid stays!)</em>
+        <hr class="divider"/>
+        mid stays on 2-swap because swapped value is unknown.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECTION 5 — INTERVIEW REMINDERS
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-label">Interview Reminders</div>
+  <div class="board">
+
+    <div class="note purple w-md r2">
+      <div class="tag">Complexity</div>
+      <div class="note-title">Always state these</div>
+      <ul>
+        <li>Sort first? → <strong>O(n log n)</strong></li>
+        <li>Single scan → <strong>O(n)</strong></li>
+        <li>1 outer loop + 2 pointers → <strong>O(n²)</strong></li>
+        <li>2 outer loops + 2 pointers → <strong>O(n³)</strong></li>
+        <li>Two pointers → <strong>O(1) space</strong> (vs hash map O(n))</li>
+      </ul>
+    </div>
+
+    <div class="note pink w-md r4">
+      <div class="tag">Overflow Trap</div>
+      <div class="note-title">Cast to Long for kSum</div>
+      <div class="note-body">
+        <code>Int.MAX_VALUE ≈ 2.1 × 10⁹</code><br/>
+        4 values of 10⁹ = 4 × 10⁹ → <strong>overflow!</strong>
+        <hr class="divider"/>
+        Fix: <code>nums[i].toLong() + nums[j] + ...</code><br/>
+        One <code>toLong()</code> propagates the whole expression.
+      </div>
+    </div>
+
+    <div class="note white w-sm r6">
+      <div class="tag">Gut Check</div>
+      <div class="note-title">3 Questions Before You Code</div>
+      <ul>
+        <li>Is the array sorted? (or should I sort?)</li>
+        <li>Am I moving the right pointer?</li>
+        <li>Did I handle duplicates at all levels?</li>
+      </ul>
+    </div>
+
+    <div class="note green w-md r1">
+      <div class="tag">Sorted array cheatsheet</div>
+      <div class="note-title">Sorted + X → Pattern</div>
+      <div class="note-body">
+        <strong>Pair sum</strong> → Opposite Ends<br/>
+        <strong>Remove duplicates</strong> → Fast/Slow<br/>
+        <strong>Merge in-place</strong> → Two Sequences (reverse)<br/>
+        <strong>Triplet/quadruplet sum</strong> → kSum<br/>
+        <strong>Partition by value</strong> → 3-pointer (Dutch Flag)
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
