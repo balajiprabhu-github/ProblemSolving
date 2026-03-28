@@ -556,10 +556,35 @@ class TwoPointersLab {
      *
      */
     fun threeSum(nums: IntArray): List<List<Int>> {
-        TODO("Sort + fix i + Pattern 1 on remaining subarray")
+        val result = mutableListOf<List<Int>>()
+
+        nums.sort() // O(log n)
+
+        for(i in nums.indices) { // O(n)
+            if (i > 0 && nums[i] == nums[i-1]) continue
+            var left = i+1
+            var right = nums.size-1
+
+            while(left < right) { // O(n-i+1)
+                val sum = nums[i] + nums[left] + nums[right]
+                if(sum == 0) {
+                    result.add(listOf(nums[i],nums[left],nums[right]))
+                    left++
+                    right--
+                    while(left < right && nums[left] == nums[left-1]) { left++ }
+                    while(left < right && nums[right] == nums[right+1]) { right-- }
+                } else if(sum < 0) {
+                    left++
+                } else {
+                    right--
+                }
+            }
+        }
+
+        return result
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n^2) - O(n log n) + O(n) * O(n-i+1)
+    // Space: O(n) - worst case
 
     /**
      * Problem 4c: 4Sum (LeetCode 18)
@@ -570,7 +595,6 @@ class TwoPointersLab {
      *
      */
     fun fourSum(nums: IntArray, target: Int): List<List<Int>> {
-        TODO("Sort + fix i + fix j + Pattern 1 on remaining subarray")
     }
     // Time: O(?)
     // Space: O(?)
