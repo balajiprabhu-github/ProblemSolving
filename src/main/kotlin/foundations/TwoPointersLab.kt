@@ -595,9 +595,39 @@ class TwoPointersLab {
      *
      */
     fun fourSum(nums: IntArray, target: Int): List<List<Int>> {
+
+        val n = nums.size
+        val result = mutableListOf<List<Int>>()
+
+        nums.sort()
+
+        for(i in 0 until n-3) {
+            if(i > 0 &&  nums[i] == nums[i-1]) continue
+            for(j in i+1 until n-2) {
+                if(j > i+1 && nums[j] == nums[j-1]) continue
+                var left = j+1
+                var right = n-1
+                while(left < right) {
+                    val sum = nums[i].toLong() + nums[j] + nums[left] + nums[right]
+                    when {
+                        sum > target -> right--
+                        sum < target -> left++
+                        else -> {
+                            result.add(listOf(nums[i], nums[j], nums[left], nums[right]))
+                            left++
+                            right--
+                            while(left < right && nums[left] == nums[left-1]) { left++ }
+                            while(left < right && nums[right] == nums[right+1]) { right-- }
+                        }
+                    }
+                }
+            }
+        }
+
+        return result
     }
-    // Time: O(?)
-    // Space: O(?)
+    // Time: O(n^3) we have 3 nested loops that includes 2 anchor points and 2 movable pointers
+    // Space: O(1) No extra space other than return value
 }
 
 fun main() {
