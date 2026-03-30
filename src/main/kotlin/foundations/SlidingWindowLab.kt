@@ -1,5 +1,7 @@
 package foundations
 
+import kotlin.math.max
+
 /**
  * Phase 2, Part 2: Sliding Window Lab
  *
@@ -60,8 +62,16 @@ class SlidingWindowLab {
      */
 
     fun findMaxAverageBrute(nums: IntArray, k: Int): Double {
-        // TODO
-        return 0.0
+        var maxSum = Double.MIN_VALUE
+
+        for(i in 0 .. nums.size-k) {
+            var sum = nums[i].toDouble()
+            for(j in i+1 until i+k) {
+                sum += nums[j].toDouble()
+            }
+            maxSum = max((sum/k), maxSum)
+        }
+        return maxSum
     }
 
     fun findMaxAverage(nums: IntArray, k: Int): Double {
@@ -280,7 +290,7 @@ class SlidingWindowLab {
 
 fun main() {
     val lab = SlidingWindowLab()
-    println("Max avg [1,12,-5,-6,50,3] k=4: ${lab.findMaxAverage(intArrayOf(1, 12, -5, -6, 50, 3), 4)}")
+    println("Max avg [1,12,-5,-6,50,3] k=4: ${lab.findMaxAverageBrute(intArrayOf(1, 12, -5, -6, 50, 3), 4)}")
     println("Min subarray len target=7 [2,3,1,2,4,3]: ${lab.minSubArrayLen(7, intArrayOf(2, 3, 1, 2, 4, 3))}")
     println("Longest no-repeat 'abcabcbb': ${lab.lengthOfLongestSubstring("abcabcbb")}")
     println("Char replacement 'ABAB' k=2: ${lab.characterReplacement("ABAB", 2)}")
