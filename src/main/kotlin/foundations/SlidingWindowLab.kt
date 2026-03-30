@@ -64,23 +64,40 @@ class SlidingWindowLab {
     fun findMaxAverageBrute(nums: IntArray, k: Int): Double {
         var maxSum = Double.MIN_VALUE
 
-        for(i in 0 .. nums.size-k) {
+        for (i in 0..nums.size - k) {
             var sum = nums[i].toDouble()
-            for(j in i+1 until i+k) {
+            for (j in i + 1 until i + k) {
                 sum += nums[j].toDouble()
             }
-            maxSum = max((sum/k), maxSum)
+            maxSum = max((sum / k), maxSum)
         }
         return maxSum
     }
 
     fun findMaxAverage(nums: IntArray, k: Int): Double {
-        // TODO
-        return 0.0
+        var left = 0
+        var right = k
+
+        var maxSum = Double.MIN_VALUE
+        var avg = 0.0
+
+        for (i in 0 until k) {
+            avg += nums[i]
+        }
+
+        maxSum = max(avg, maxSum)
+
+        while (right < nums.size) {
+            avg += nums[right++]
+            avg -= nums[left++]
+            maxSum = max(avg, maxSum)
+        }
+
+        return maxSum / k
     }
 
-    /** Time Complexity: TODO */
-    /** Space Complexity: TODO */
+    /** Time Complexity: O(n) No nested loops **/
+    /** Space Complexity: O(1) No extra space **/
 
 
     // ═══════════════════════════════════════════════════════════
