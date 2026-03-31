@@ -1,6 +1,7 @@
 package foundations
 
 import kotlin.math.max
+import kotlin.math.min
 
 /**
  * Phase 2, Part 2: Sliding Window Lab
@@ -129,8 +130,18 @@ class SlidingWindowLab {
      */
 
     fun minSubArrayLenBrute(target: Int, nums: IntArray): Int {
-        // TODO
-        return 0
+        var minLen = Int.MAX_VALUE
+        for(i in nums.indices) {
+            var sum = 0
+            for(j in i until nums.size) {
+                sum += nums[j]
+                if(sum >= target){
+                    minLen = min(minLen,j-i+1)
+                    break
+                }
+            }
+        }
+        return if(minLen == Int.MAX_VALUE) 0 else minLen
     }
 
     fun minSubArrayLen(target: Int, nums: IntArray): Int {
