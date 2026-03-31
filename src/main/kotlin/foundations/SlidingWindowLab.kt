@@ -77,20 +77,18 @@ class SlidingWindowLab {
     fun findMaxAverage(nums: IntArray, k: Int): Double {
         var left = 0
         var right = k
-
-        var maxSum = Double.MIN_VALUE
-        var avg = 0.0
+        var windowSum = 0.0
 
         for (i in 0 until k) {
-            avg += nums[i]
+            windowSum += nums[i]
         }
 
-        maxSum = max(avg, maxSum)
+        var maxSum = windowSum
 
         while (right < nums.size) {
-            avg += nums[right++]
-            avg -= nums[left++]
-            maxSum = max(avg, maxSum)
+            windowSum += nums[right++]
+            windowSum -= nums[left++]
+            maxSum = max(windowSum, maxSum)
         }
 
         return maxSum / k
