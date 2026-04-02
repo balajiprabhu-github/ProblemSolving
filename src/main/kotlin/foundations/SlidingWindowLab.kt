@@ -145,12 +145,21 @@ class SlidingWindowLab {
     }
 
     fun minSubArrayLen(target: Int, nums: IntArray): Int {
-        // TODO
-        return 0
+        var minLength = Int.MAX_VALUE
+        var left = 0
+        var sum = 0
+        for(right in nums.indices) {
+            sum += nums[right]
+            while(sum >= target) {
+                minLength = min(minLength,right - left + 1)
+                sum -= nums[left++]
+            }
+        }
+        return if(minLength == Int.MAX_VALUE) 0 else minLength
     }
 
-    /** Time Complexity: TODO */
-    /** Space Complexity: TODO */
+    /** Time Complexity: O(n) Each element is added (right) and removed (left) at most once — amortized O(2n) = O(n) */
+    /** Space Complexity: O(1) No extra space */
 
 
     /**
