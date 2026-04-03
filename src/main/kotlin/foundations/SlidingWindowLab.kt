@@ -210,12 +210,24 @@ class SlidingWindowLab {
     // Space Complexity - O(n) in worst case where there are n unique char then set will contain n char
 
     fun lengthOfLongestSubstring(s: String): Int {
-        // TODO
-        return 0
+        val n = s.length
+        if(n <= 1) return n
+        var left = 0
+        var maxLength = Int.MIN_VALUE
+        val set = mutableSetOf<Char>()
+
+        for(right in s.indices) {
+            while(set.contains(s[right])) {
+                set.remove(s[left++])
+            }
+            set.add(s[right])
+            maxLength = max(maxLength, set.size)
+        }
+        return maxLength
     }
 
-    /** Time Complexity: TODO */
-    /** Space Complexity: TODO */
+    /** Time Complexity: O(n) iterative over each element at max twice */
+    /** Space Complexity: O(n) worst case when there are n unique chars the set will be of size n  */
 
 
     /**
