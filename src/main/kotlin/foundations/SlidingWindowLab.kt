@@ -131,31 +131,31 @@ class SlidingWindowLab {
 
     fun minSubArrayLenBrute(target: Int, nums: IntArray): Int {
         var minLen = Int.MAX_VALUE
-        for(i in nums.indices) {
+        for (i in nums.indices) {
             var sum = 0
-            for(j in i until nums.size) {
+            for (j in i until nums.size) {
                 sum += nums[j]
-                if(sum >= target){
-                    minLen = min(minLen,j-i+1)
+                if (sum >= target) {
+                    minLen = min(minLen, j - i + 1)
                     break
                 }
             }
         }
-        return if(minLen == Int.MAX_VALUE) 0 else minLen
+        return if (minLen == Int.MAX_VALUE) 0 else minLen
     }
 
     fun minSubArrayLen(target: Int, nums: IntArray): Int {
         var minLength = Int.MAX_VALUE
         var left = 0
         var sum = 0
-        for(right in nums.indices) {
+        for (right in nums.indices) {
             sum += nums[right]
-            while(sum >= target) {
-                minLength = min(minLength,right - left + 1)
+            while (sum >= target) {
+                minLength = min(minLength, right - left + 1)
                 sum -= nums[left++]
             }
         }
-        return if(minLength == Int.MAX_VALUE) 0 else minLength
+        return if (minLength == Int.MAX_VALUE) 0 else minLength
     }
 
     /** Time Complexity: O(n) Each element is added (right) and removed (left) at most once — amortized O(2n) = O(n) */
@@ -188,9 +188,26 @@ class SlidingWindowLab {
      */
 
     fun lengthOfLongestSubstringBrute(s: String): Int {
-        // TODO
-        return 0
+        if (s.length <= 1) return s.length
+
+        var maxLength = Int.MIN_VALUE
+
+        for (i in s.indices) {
+            val set = mutableSetOf(s[i])
+            for (j in i + 1 until s.length) {
+                if (set.contains(s[j])) {
+                    break
+                } else {
+                    set.add(s[j])
+                }
+            }
+            maxLength = max(maxLength, set.size)
+        }
+        return maxLength
     }
+
+    // Time Complexity - O(n^2) for each char in the string we are checking with the remaining char after i.
+    // Space Complexity - O(n) in worst case where there are n unique char then set will contain n char
 
     fun lengthOfLongestSubstring(s: String): Int {
         // TODO
