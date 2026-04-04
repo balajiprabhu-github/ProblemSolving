@@ -257,17 +257,45 @@ class SlidingWindowLab {
      */
 
     fun characterReplacementBrute(s: String, k: Int): Int {
-        // TODO
-        return 0
+        var result = 0
+        for (i in s.indices) {
+            val map = mutableMapOf<Char, Int>()
+            var maxFreq = 0
+            for (j in i until s.length) {
+                map[s[j]] = map.getOrDefault(s[j], 0) + 1
+                maxFreq = max(maxFreq,map[s[j]]!!)
+                val windowSize = j - i + 1
+                if ((windowSize - maxFreq) <= k) {
+                    result = max(result,windowSize)
+                }
+            }
+        }
+        return result
     }
 
     fun characterReplacement(s: String, k: Int): Int {
-        // TODO
-        return 0
+        val map = mutableMapOf<Char,Int>()
+        var result = 0
+        var left = 0
+        var maxFreq = 0
+
+        for(right in s.indices) {
+            map[s[right]] = map.getOrDefault(s[right], 0) + 1
+            maxFreq = max(maxFreq, map[s[right]]!!)
+            if ((right - left + 1) - maxFreq > k) {
+                map[s[left]] = map[s[left]]!! - 1
+                left++
+            }
+            result = max(result, right - left + 1)
+        }
+        return result
     }
 
-    /** Time Complexity: TODO */
-    /** Space Complexity: TODO */
+    /** Brute Force — Time Complexity: O(n²) Two nested loops: outer iterates n starting positions, inner expands up to n steps each */
+    /** Brute Force — Space Complexity: O(1) Frequency map holds at most 26 uppercase letters regardless of input size */
+
+    /** Sliding Window — Time Complexity: O(n) Each character is added once (right) and removed at most once (left) — amortized O(2n) = O(n) */
+    /** Sliding Window — Space Complexity: O(1) Frequency map holds at most 26 uppercase letters regardless of input size */
 
 
     // ═══════════════════════════════════════════════════════════
