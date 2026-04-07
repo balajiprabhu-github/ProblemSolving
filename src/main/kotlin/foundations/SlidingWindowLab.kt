@@ -15,10 +15,12 @@ import kotlin.math.min
  * ═══════════════════════════════════════════════════════════
  *
  * Pattern 1 — FIXED SIZE WINDOW
+ *
  *   Window size k is given. Slide one step at a time.
  *   When to use: "find max/min/avg of every subarray of size k"
  *
  * Pattern 2 — VARIABLE SIZE WINDOW
+ *
  *   Window expands and shrinks based on a constraint.
  *   When to use: "longest/shortest subarray/substring that satisfies X"
  *
@@ -48,12 +50,12 @@ class SlidingWindowLab {
      * and return this value. Any answer with a calculation error less than 10^-5 will be accepted.
      *
      * Example 1:
-     *   Input:  nums = [1, 12, -5, -6, 50, 3], k = 4
+     *   Input: nums = [1, 12, -5, -6, 50, 3], k = 4
      *   Output: 12.75000
      *   Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
      *
      * Example 2:
-     *   Input:  nums = [5], k = 1
+     *   Input: nums = [5], k = 1
      *   Output: 5.00000
      *
      * Constraints:
@@ -107,20 +109,20 @@ class SlidingWindowLab {
      * Problem 2: Minimum Size Subarray Sum (LeetCode 209)
      *
      * Given an array of positive integers nums and a positive integer target,
-     * return the minimal length of a subarray whose sum is greater than or equal to target.
+     * return the minimal length of a subarray whose sum is greater than or equal to the target.
      * If there is no such subarray, return 0 instead.
      *
      * Example 1:
-     *   Input:  target = 7, nums = [2, 3, 1, 2, 4, 3]
+     *   Input: target = 7, nums = [2, 3, 1, 2, 4, 3]
      *   Output: 2
      *   Explanation: The subarray [4, 3] has the minimal length under the problem constraint.
      *
      * Example 2:
-     *   Input:  target = 4, nums = [1, 4, 4]
+     *   Input: target = 4, nums = [1, 4, 4]
      *   Output: 1
      *
      * Example 3:
-     *   Input:  target = 11, nums = [1, 1, 1, 1, 1, 1, 1, 1]
+     *   Input: target = 11, nums = [1, 1, 1, 1, 1, 1, 1, 1]
      *   Output: 0
      *
      * Constraints:
@@ -168,23 +170,23 @@ class SlidingWindowLab {
      * Given a string s, find the length of the longest substring without duplicate characters.
      *
      * Example 1:
-     *   Input:  s = "abcabcbb"
+     *   Input: s = "abcabcbb"
      *   Output: 3
      *   Explanation: The answer is "abc", with the length of 3.
      *
      * Example 2:
-     *   Input:  s = "bbbbb"
+     *   Input: s = "bbbbb"
      *   Output: 1
      *   Explanation: The answer is "b", with the length of 1.
      *
      * Example 3:
-     *   Input:  s = "pwwkew"
+     *   Input: s = "pwwkew"
      *   Output: 3
      *   Explanation: The answer is "wke", with the length of 3.
      *
      * Constraints:
      *   - 0 <= s.length <= 5 * 10^4
-     *   - s consists of English letters, digits, symbols and spaces.
+     *   - s consists of English letters, digits, symbols, and spaces.
      */
 
     fun lengthOfLongestSubstringBrute(s: String): Int {
@@ -207,7 +209,7 @@ class SlidingWindowLab {
     }
 
     // Time Complexity - O(n^2) for each char in the string we are checking with the remaining char after i.
-    // Space Complexity - O(n) in worst case where there are n unique char then set will contain n char
+    // Space Complexity - O(n) in worst case where there are n unique char, then a set will contain n char
 
     fun lengthOfLongestSubstring(s: String): Int {
         val n = s.length
@@ -227,7 +229,7 @@ class SlidingWindowLab {
     }
 
     /** Time Complexity: O(n) iterative over each element at max twice */
-    /** Space Complexity: O(n) worst case when there are n unique chars the set will be of size n  */
+    /** Space Complexity: O(n) the worst case when there are n unique chars, the set will be of size n  */
 
 
     /**
@@ -240,15 +242,15 @@ class SlidingWindowLab {
      * after performing the above operations.
      *
      * Example 1:
-     *   Input:  s = "ABAB", k = 2
+     *   Input: s = "ABAB", k = 2
      *   Output: 4
      *   Explanation: Replace the two 'A's with two 'B's or vice versa.
      *
      * Example 2:
-     *   Input:  s = "AABABBA", k = 1
+     *   Input: s = "AABABBA", k = 1
      *   Output: 4
      *   Explanation: Replace the one 'A' in the middle with 'B' and form "AABBBBA".
-     *                The substring "BBBB" has the longest repeating letters, which is 4.
+     *                The substring "BBBB" has the longest repeating letters, which are 4.
      *
      * Constraints:
      *   - 1 <= s.length <= 10^5
@@ -310,12 +312,12 @@ class SlidingWindowLab {
      * In other words, return true if one of s1's permutations is a substring of s2.
      *
      * Example 1:
-     *   Input:  s1 = "ab", s2 = "eidbaooo"
+     *   Input: s1 = "ab", s2 = "eidbaooo"
      *   Output: true
      *   Explanation: s2 contains one permutation of s1 ("ba").
      *
      * Example 2:
-     *   Input:  s1 = "ab", s2 = "eidboaoo"
+     *   Input: s1 = "ab", s2 = "eidboaoo"
      *   Output: false
      *
      * Constraints:
@@ -346,16 +348,16 @@ class SlidingWindowLab {
      * If there is no such substring, return the empty string "".
      *
      * Example 1:
-     *   Input:  s = "ADOBECODEBANC", t = "ABC"
+     *   Input: s = "ADOBECODEBANC", t = "ABC"
      *   Output: "BANC"
      *   Explanation: The minimum window substring "BANC" includes 'A', 'B', and 'C' from string t.
      *
      * Example 2:
-     *   Input:  s = "a", t = "a"
+     *   Input: s = "a", t = "a"
      *   Output: "a"
      *
      * Example 3:
-     *   Input:  s = "a", t = "aa"
+     *   Input: s = "a", t = "aa"
      *   Output: ""
      *   Explanation: Both 'a's from t must be included in the window.
      *                Since the largest window of s only has one 'a', return "".
@@ -363,7 +365,7 @@ class SlidingWindowLab {
      * Constraints:
      *   - m == s.length, n == t.length
      *   - 1 <= m, n <= 10^5
-     *   - s and t consist of uppercase and lowercase English letters.
+     *   - String s and t consist of uppercase and lowercase English letters.
      */
 
     fun minWindowBrute(s: String, t: String): String {
