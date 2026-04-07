@@ -213,13 +213,13 @@ class SlidingWindowLab {
 
     fun lengthOfLongestSubstring(s: String): Int {
         val n = s.length
-        if(n <= 1) return n
+        if (n <= 1) return n
         var left = 0
         var maxLength = Int.MIN_VALUE
         val set = mutableSetOf<Char>()
 
-        for(right in s.indices) {
-            while(set.contains(s[right])) {
+        for (right in s.indices) {
+            while (set.contains(s[right])) {
                 set.remove(s[left++])
             }
             set.add(s[right])
@@ -265,10 +265,10 @@ class SlidingWindowLab {
             var maxFreq = 0
             for (j in i until s.length) {
                 map[s[j]] = map.getOrDefault(s[j], 0) + 1
-                maxFreq = max(maxFreq,map[s[j]]!!)
+                maxFreq = max(maxFreq, map[s[j]]!!)
                 val windowSize = j - i + 1
                 if ((windowSize - maxFreq) <= k) {
-                    result = max(result,windowSize)
+                    result = max(result, windowSize)
                 }
             }
         }
@@ -276,12 +276,12 @@ class SlidingWindowLab {
     }
 
     fun characterReplacement(s: String, k: Int): Int {
-        val map = mutableMapOf<Char,Int>()
+        val map = mutableMapOf<Char, Int>()
         var result = 0
         var left = 0
         var maxFreq = 0
 
-        for(right in s.indices) {
+        for (right in s.indices) {
             map[s[right]] = map.getOrDefault(s[right], 0) + 1
             maxFreq = max(maxFreq, map[s[right]]!!)
             if ((right - left + 1) - maxFreq > k) {
@@ -326,17 +326,38 @@ class SlidingWindowLab {
      */
 
     fun checkInclusionBrute(s1: String, s2: String): Boolean {
-        // TODO
+        val s1Freq = IntArray(26)
+        for (i in s1.indices) s1Freq[s1[i] - 'a']++
+
+        for (i in 0 until s2.length - (s1.length - 1)) {
+            val windowFreq = IntArray(26)
+            for (j in i until i + s1.length) {
+                windowFreq[s2[j] - 'a']++
+            }
+            if (s1Freq.contentEquals(windowFreq)) return true
+        }
         return false
     }
 
     fun checkInclusion(s1: String, s2: String): Boolean {
-        // TODO
+        val s1Freq = IntArray(26)
+        for (i in s1.indices) s1Freq[s1[i] - 'a']++
+
+        val windowFreq = IntArray(26)
+        var left = 0
+        for(right in s2.indices) {
+            windowFreq[s2[right] -'a']++
+            if (right - left + 1 > s1.length) {
+                windowFreq[s2[left++]-'a']--
+            }
+            if(s1Freq.contentEquals(windowFreq)) return true
+        }
+
         return false
     }
 
-    /** Time Complexity: TODO */
-    /** Space Complexity: TODO */
+    /** Time Complexity: O(n) — each character is added and removed at most once */
+    /** Space Complexity: O(1) — two fixed-size arrays of 26, independent of input size */
 
 
     /**
