@@ -345,12 +345,12 @@ class SlidingWindowLab {
 
         val windowFreq = IntArray(26)
         var left = 0
-        for(right in s2.indices) {
-            windowFreq[s2[right] -'a']++
+        for (right in s2.indices) {
+            windowFreq[s2[right] - 'a']++
             if (right - left + 1 > s1.length) {
-                windowFreq[s2[left++]-'a']--
+                windowFreq[s2[left++] - 'a']--
             }
-            if(s1Freq.contentEquals(windowFreq)) return true
+            if (s1Freq.contentEquals(windowFreq)) return true
         }
 
         return false
@@ -389,9 +389,41 @@ class SlidingWindowLab {
      *   - String s and t consist of uppercase and lowercase English letters.
      */
 
+    fun getIndex(c: Char): Int {
+        return if (c.isLowerCase()) c - 'a' else c - 'A' + 26
+    }
+
+    fun isValid(tFreq: IntArray, windowFreq: IntArray): Boolean {
+        for (i in tFreq.indices) {
+            if (tFreq[i] > windowFreq[i]) return false
+        }
+        return true
+    }
+
     fun minWindowBrute(s: String, t: String): String {
-        // TODO
-        return ""
+        val tFreq = IntArray(52)
+        for (c in t) tFreq[getIndex(c)]++
+
+        var minLen = Int.MAX_VALUE
+        var minStart = 0
+
+        for (i in s.indices) {
+            val windowFreq = IntArray(52)
+            for (j in i until s.length) {
+
+                val index = getIndex(s[j])
+                windowFreq[index]++
+
+                if (isValid(tFreq, windowFreq)) {
+                    if (j - i + 1 < minLen) {
+                        minLen = j - i + 1
+                        minStart = i
+                    }
+                    break
+                }
+            }
+        }
+        return if (minLen == Int.MAX_VALUE) "" else s.substring(minStart, minStart + minLen)
     }
 
     fun minWindow(s: String, t: String): String {
@@ -405,10 +437,10 @@ class SlidingWindowLab {
 
 fun main() {
     val lab = SlidingWindowLab()
-    println("Max avg [1,12,-5,-6,50,3] k=4: ${lab.findMaxAverageBrute(intArrayOf(1, 12, -5, -6, 50, 3), 4)}")
-    println("Min subarray len target=7 [2,3,1,2,4,3]: ${lab.minSubArrayLen(7, intArrayOf(2, 3, 1, 2, 4, 3))}")
-    println("Longest no-repeat 'abcabcbb': ${lab.lengthOfLongestSubstring("abcabcbb")}")
-    println("Char replacement 'ABAB' k=2: ${lab.characterReplacement("ABAB", 2)}")
-    println("Permutation in string s1='ab' s2='eidbaooo': ${lab.checkInclusion("ab", "eidbaooo")}")
-    println("Min window s='ADOBECODEBANC' t='ABC': ${lab.minWindow("ADOBECODEBANC", "ABC")}")
+    //println("Max avg [1,12,-5,-6,50,3] k=4: ${lab.findMaxAverageBrute(intArrayOf(1, 12, -5, -6, 50, 3), 4)}")
+    //println("Min subarray len target=7 [2,3,1,2,4,3]: ${lab.minSubArrayLen(7, intArrayOf(2, 3, 1, 2, 4, 3))}")
+    //println("Longest no-repeat 'abcabcbb': ${lab.lengthOfLongestSubstring("abcabcbb")}")
+    //println("Char replacement 'ABAB' k=2: ${lab.characterReplacement("ABAB", 2)}")
+    //println("Permutation in string s1='ab' s2='eidbaooo': ${lab.checkInclusion("ab", "eidbaooo")}")
+    println("Min window s='ADOBECODEBANC' t='ABC': ${lab.minWindowBrute("ADOBECODEBANC", "ABC")}")
 }
