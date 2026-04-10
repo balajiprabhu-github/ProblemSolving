@@ -427,8 +427,7 @@ class SlidingWindowLab {
     }
 
     fun minWindow(s: String, t: String): String {
-        // TODO
-        return ""
+
     }
 
     /** Time Complexity: TODO */
@@ -437,10 +436,10 @@ class SlidingWindowLab {
 
 fun main() {
     val lab = SlidingWindowLab()
-    //println("Max avg [1,12,-5,-6,50,3] k=4: ${lab.findMaxAverageBrute(intArrayOf(1, 12, -5, -6, 50, 3), 4)}")
-    //println("Min subarray len target=7 [2,3,1,2,4,3]: ${lab.minSubArrayLen(7, intArrayOf(2, 3, 1, 2, 4, 3))}")
-    //println("Longest no-repeat 'abcabcbb': ${lab.lengthOfLongestSubstring("abcabcbb")}")
-    //println("Char replacement 'ABAB' k=2: ${lab.characterReplacement("ABAB", 2)}")
-    //println("Permutation in string s1='ab' s2='eidbaooo': ${lab.checkInclusion("ab", "eidbaooo")}")
+    println("Max avg [1,12,-5,-6,50,3] k=4: ${lab.findMaxAverageBrute(intArrayOf(1, 12, -5, -6, 50, 3), 4)}")
+    println("Min subarray len target=7 [2,3,1,2,4,3]: ${lab.minSubArrayLen(7, intArrayOf(2, 3, 1, 2, 4, 3))}")
+    println("Longest no-repeat 'abcabcbb': ${lab.lengthOfLongestSubstring("abcabcbb")}")
+    println("Char replacement 'ABAB' k=2: ${lab.characterReplacement("ABAB", 2)}")
+    println("Permutation in string s1='ab' s2='eidbaooo': ${lab.checkInclusion("ab", "eidbaooo")}")
     println("Min window s='ADOBECODEBANC' t='ABC': ${lab.minWindowBrute("ADOBECODEBANC", "ABC")}")
 }
