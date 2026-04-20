@@ -36,10 +36,18 @@ class TwoPointersLabRev1 {
      * Before coding — trace ['h','e','l','l','o'] by hand.
      */
     fun reverseString(s: CharArray) {
-        TODO()
+        var left = 0
+        var right = s.lastIndex
+        while(left < right) {
+            val temp = s[left]
+            s[left] = s[right]
+            s[right] = temp
+            left++
+            right--
+        }
     }
-    // Time:
-    // Space:
+    // Time: O(n)
+    // Space: O(1)
 
     /**
      * Problem 2: Squares of a Sorted Array (LeetCode 977)
