@@ -62,10 +62,26 @@ class TwoPointersLabRev1 {
      * Pattern:
      */
     fun sortedSquares(nums: IntArray): IntArray {
-        TODO()
+        var left = 0
+        var right = nums.lastIndex
+        val result = IntArray(nums.size)
+
+        for(i in result.indices.reversed()) {
+            val leftSq = nums[left] * nums[left]
+            val rightSq = nums[right] * nums[right]
+            if(leftSq > rightSq) {
+                result[i] = leftSq
+                left++
+            } else {
+                result[i] = rightSq
+                right--
+            }
+        }
+
+        return result
     }
-    // Time:
-    // Space:
+    // Time: O(n) iterating over each item once
+    // Space: O(n) for result array (O(1) auxiliary)
 
     /**
      * Problem 3: Remove Element (LeetCode 27)
