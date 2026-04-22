@@ -95,10 +95,19 @@ class TwoPointersLabRev1 {
      * Pattern:
      */
     fun removeElement(nums: IntArray, `val`: Int): Int {
-        TODO()
+        var k = 0
+
+        for(i in nums.indices) {
+           if(nums[i] != `val`) {
+               nums[k] = nums[i]
+               k++
+           }
+        }
+
+        return k
     }
-    // Time:
-    // Space:
+    // Time: O(n)
+    // Space: O(1)
 
     /**
      * Problem 4: Valid Palindrome II (LeetCode 680)
